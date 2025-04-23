@@ -1,16 +1,12 @@
 from comet import download_model, load_from_checkpoint
 
-MODEL = download_model("wmt20-comet-da")  # o el modelo que funcione en tu versión
-model = load_from_checkpoint(MODEL)
-
-def calculate_comet(source_text: str, translated_text: str, reference_text: str = None) -> float:
-    data = [{
-        "src": source_text,
-        "mt": translated_text,
-        "ref": reference_text if reference_text else translated_text
-    }]
+def calculate_comet(source_text: str, translated_text: str) -> float:
     try:
-        prediction = model.predict(data, batch_size=1, gpus=0)
-        return prediction["scores"][0]
+        model_path = download_model("wmt20-comet-qe-da")
+        model = load_from_checkpoint(model_path)
+        data = [{"src": source_text, "mt": translated_text}]
+        predictions = model.predict(data, batch_size=1, gpus=0)
+        score = predictions["scores"][0] if predictions["scores"] else 0.0
+        return max(min(score, 1.0), -1.0)
     except Exception as e:
-        raise ValueError(f"Error en COMET: {str(e)}")
+        return f"Error in COMET: {str(e)}"
