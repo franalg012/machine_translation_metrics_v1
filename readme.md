@@ -1,7 +1,7 @@
 # 🌍 Translation Metrics API
 
 API para comparar métricas de traducción automática: <br>
- Métricas estadísticas :**BLEU**, **METEOR**, **ROUGE**, <br>
+ Métricas estadísticas: **BLEU**, **METEOR**, **ROUGE**, <br>
  Métricas basadas en modelos: **COMET**, **BLEURT**. <br>
 
 ---
